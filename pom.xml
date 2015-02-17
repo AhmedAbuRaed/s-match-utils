@@ -209,6 +209,11 @@
                 <targetPath>${project.build.directory}/dist/bin</targetPath>
             </resource>
             <resource>
+                <directory>src/main/resources/profiles</directory>
+                <includes />
+                <targetPath>${project.build.directory}/dist/profiles</targetPath>
+            </resource>
+            <resource>
                 <directory>src/main/resources/conf</directory>
                 <includes />
                 <targetPath>${project.build.directory}/dist/conf</targetPath>
