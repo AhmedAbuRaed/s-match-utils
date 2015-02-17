@@ -1,5 +1,7 @@
 package it.unitn.disi.smatch.gui;
 
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import com.ikayzo.swing.icon.IconUtils;
 import com.ikayzo.swing.icon.JIconFile;
 import com.ikayzo.swing.icon.LayeredIcon;
@@ -16,6 +18,7 @@ import it.unitn.disi.smatch.data.trees.IContext;
 import it.unitn.disi.smatch.data.trees.INode;
 import it.unitn.disi.smatch.loaders.context.IAsyncContextLoader;
 import it.unitn.disi.smatch.loaders.mapping.IAsyncMappingLoader;
+import it.unitn.disi.smatch.oracles.ukc.UKC;
 import it.unitn.disi.smatch.renderers.context.IAsyncContextRenderer;
 import it.unitn.disi.smatch.renderers.mapping.IAsyncMappingRenderer;
 import org.apache.log4j.Level;
@@ -161,6 +164,8 @@ public class SMatchGUI extends Observable implements Observer, Executor {
     private Action acViewUncoalesceAll;
 
     private Action acConfigurationEdit;
+
+    private static UKC ukcEntity = new UKC();
 
     public static final String TANGO_ICONS_PATH = "/it/unitn/disi/smatch/gui/tango-icon-theme-0.8.90/";
 
@@ -4445,6 +4450,12 @@ public class SMatchGUI extends Observable implements Observer, Executor {
                     // route events to Swing
                     AsyncMatchManager.setEventExecutor(gui);
                     gui.startup(args);
+                    try {
+                        DetectorFactory.loadProfile("../profiles");
+                    } catch (LangDetectException e) {
+                        e.printStackTrace();
+                    }
+                    ukcEntity.loadContextLoader();
                 } catch (IOException e) {
                     log.error(e.getMessage(), e);
                 }
